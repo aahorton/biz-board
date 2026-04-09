@@ -1,0 +1,21 @@
+{
+  "name": "biz-board",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "tsx --env-file=.env.development --watch src/index.ts "
+  },
+  "keywords": [],
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/client": "^5.21.1",
+    "@types/express": "^5.0.0",
+    "express": "^4.21.1",
+    "prisma": "^5.21.1",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3",
+    "zod": "^3.23.8"
+  }
+}

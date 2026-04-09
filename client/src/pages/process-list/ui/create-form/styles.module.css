@@ -1,0 +1,18 @@
+.root {
+  display: flex;
+  gap: 10px;
+}
+
+.btn {
+  padding: 5px 10px;
+  background-color: #000;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+}
+
+.input {
+  padding: 5px 10px;
+  border: 1px solid #000;
+  border-radius: 5px;
+}

@@ -1,0 +1,30 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 100px;
+}
+
+.title {
+  margin-bottom: 10px;
+  font-size: 55px;
+  font-weight: bold;
+}
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  position: relative;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  font-weight: bold;
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.5);
+  inset: 0;
+}

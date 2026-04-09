@@ -1,0 +1,58 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+
+model Process {
+  id   String    @id @default(cuid())
+  name String
+  blocks ProcessBlock[]
+}
+
+model ProcessBlock {
+  id   String    @id @default(cuid())
+  name String
+
+  type String
+  data String
+
+  x Float @default(0)
+  y Float @default(0)
+
+  process Process @relation(fields: [processId], references: [id])
+  processId String
+
+  outputs ProcessBlockRelation[] @relation("OutputRelations")
+  inputs ProcessBlockRelation[] @relation("InputRelations")
+}
+
+
+model ProcessBlockRelation {
+  id String @id @default(cuid())
+
+
+  output ProcessBlock @relation("OutputRelations", fields: [outputId], references: [id])
+  outputId String
+
+  outputPort String
+
+
+  input ProcessBlock @relation("InputRelations", fields: [inputId], references: [id])
+  inputId String
+
+  inputPort String
+}
+
+
+
