@@ -1,0 +1,6 @@
+.field {
+  display: flex;
+  flex: 1;
+  inset: 0;
+  position: absolute;
+}
