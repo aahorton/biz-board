@@ -6,6 +6,7 @@ import { Arrows } from "../ui/arrows";
 import { BlockView } from "../ui/block";
 import { Field } from "../ui/field";
 import { Root } from "../ui/root";
+import { usePortPositions } from "../view-model/use-ports-positions";
 import { Port } from "./port";
 
 export function BlocksFlow({
@@ -20,11 +21,12 @@ export function BlocksFlow({
   const blockTypes = useBlockTypes((state) => state.getData());
   const isSelection = useCreateRelation((state) => state.isSelection());
   const unselectPort = useCreateRelation((state) => state.unselectPort);
+  const portPositions = usePortPositions();
 
   return (
     <Root
       field={<Field onClick={isSelection ? unselectPort : onFlowClick} />}
-      arrows={<Arrows blocks={blocks} />}
+      arrows={<Arrows blocks={blocks} portPositions={portPositions} />}
       blocks={blocks.map((block) => (
         <BlockView
           key={block.id}

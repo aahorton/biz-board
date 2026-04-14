@@ -1,6 +1,6 @@
 import { useId } from "react";
 import { useCreateBlock } from "../model/use-create-block";
-import { CreateForm } from "../ui/create-form";
+import { CreateForm } from "./create-form";
 import { Modal } from "../ui/modal";
 import { SubmitButton } from "../ui/submit-button";
 
@@ -26,9 +26,8 @@ export function CreateBlockModal({
       body={
         <CreateForm
           formId={formId}
-          onSubmit={(data) =>
-            createBlock.submitCreate({ processId, ...data }).then(onSuccess)
-          }
+          processId={processId}
+          onSuccess={onSuccess}
         />
       }
       footer={<SubmitButton formId={formId} />}

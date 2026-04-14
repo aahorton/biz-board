@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import { create } from "zustand";
 import { Position } from "../domain/position";
 
@@ -6,7 +7,7 @@ type Store = {
   setPortPosition: (id: string, postion?: Position) => void;
 };
 
-export const usePortPositions = create<Store>((set) => ({
+const usePortPositionsStore = create<Store>((set) => ({
   portPositions: {},
   setPortPosition: (id: string, postion?: Position) => {
     set((state) => {
@@ -17,3 +18,28 @@ export const usePortPositions = create<Store>((set) => ({
     });
   },
 }));
+
+export function usePortPositions() {
+  return usePortPositionsStore((state) => state.portPositions);
+}
+
+export function usePortPositionsReader(id: string) {
+  const setPortPosition = usePortPositionsStore(
+    (state) => state.setPortPosition
+  );
+
+  const callbackRef = useCallback(
+    (ref: HTMLButtonElement | null) => {
+      if (ref) {
+        setPortPosition?.(id, {
+          x: ref.offsetLeft + ref.offsetWidth / 2,
+          y: ref.offsetTop + ref.offsetHeight / 2,
+        });
+      } else {
+        setPortPosition?.(id);
+      }
+    },
+    [id, setPortPosition]
+  );
+  return callbackRef;
+}

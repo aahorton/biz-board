@@ -2,7 +2,8 @@ import { Block } from "../domain/block";
 import { PortConfig } from "../domain/block-types";
 import { getPortId } from "../domain/port";
 import { useCreateRelation } from "../model/use-create-relation";
-import { PortView as PortView } from "../ui/port";
+import { PortView } from "../ui/port";
+import { usePortPositionsReader } from "../view-model/use-ports-positions";
 
 export function Port({
   config,
@@ -32,15 +33,16 @@ export function Port({
     state.getIsCanEndSelection(portInfo, blocks)
   );
   const selectPort = useCreateRelation((state) => state.selectPort);
+  const portRef = usePortPositionsReader(id);
 
   return (
     <PortView
       type={type}
       text={config.label}
-      id={id}
       isSelected={isSelectedPort}
       isCanEndSeletion={isCanEndSelection}
       onTargetClick={() => selectPort(portInfo, blocks, onCreateArrow)}
+      portRef={portRef}
     />
   );
 }

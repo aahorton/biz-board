@@ -1,12 +1,15 @@
 import { Block } from "../../domain/block";
 import { getPortId } from "../../domain/port";
-import { sumPosition } from "../../domain/position";
-import { usePortPositions } from "../../view-model/use-ports-positions";
+import { Position, sumPosition } from "../../domain/position";
 import styles from "./styles.module.css";
 
-export function Layout({ blocks }: { blocks: Block[] }) {
-  const portPositions = usePortPositions((state) => state.portPositions);
-
+export function Layout({
+  blocks,
+  portPositions,
+}: {
+  blocks: Block[];
+  portPositions: Record<string, Position>;
+}) {
   let d = ``;
 
   const blocksRecord = blocks.reduce<Record<string, Block | undefined>>(

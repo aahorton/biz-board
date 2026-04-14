@@ -1,4 +1,4 @@
-import { useDeferredValue, useState } from "react";
+import { useDeferredValue, useMemo, useState } from "react";
 
 export function useFilters(
   items: {
@@ -10,8 +10,12 @@ export function useFilters(
   const [q, setQ] = useState("");
   const defferedQ = useDeferredValue(q);
 
-  const filteredList = items.filter((item) =>
-    item.name.toLowerCase().includes(defferedQ.toLowerCase())
+  const filteredList = useMemo(
+    () =>
+      items.filter((item) =>
+        item.name.toLowerCase().includes(defferedQ.toLowerCase())
+      ),
+    [items, q]
   );
 
   return [

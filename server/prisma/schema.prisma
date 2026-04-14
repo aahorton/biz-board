@@ -30,7 +30,7 @@ model ProcessBlock {
   x Float @default(0)
   y Float @default(0)
 
-  process Process @relation(fields: [processId], references: [id])
+  process Process @relation(fields: [processId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   processId String
 
   outputs ProcessBlockRelation[] @relation("OutputRelations")
@@ -42,13 +42,13 @@ model ProcessBlockRelation {
   id String @id @default(cuid())
 
 
-  output ProcessBlock @relation("OutputRelations", fields: [outputId], references: [id])
+  output ProcessBlock @relation("OutputRelations", fields: [outputId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   outputId String
 
   outputPort String
 
 
-  input ProcessBlock @relation("InputRelations", fields: [inputId], references: [id])
+  input ProcessBlock @relation("InputRelations", fields: [inputId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   inputId String
 
   inputPort String
