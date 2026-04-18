@@ -1,7 +1,9 @@
-import { Block } from "./block";
+import { Block, BlockId } from "./block";
+
+export type PortId = string;
 
 export type Port = {
-  blockId: string;
+  blockId: BlockId;
   type: "input" | "output";
   port: string;
 };
@@ -38,6 +40,10 @@ export const isPortTypesSame = (a?: Port, b?: Port) => {
   return a?.type === b?.type;
 };
 
-export const getPortId = (port: Port) => {
+export const isPortBlocksSame = (a?: Port, b?: Port) => {
+  return a?.blockId === b?.blockId;
+};
+
+export const getPortId = (port: Port): PortId => {
   return `${port.blockId}:${port.type}:${port.port}`;
 };

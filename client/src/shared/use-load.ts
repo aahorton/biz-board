@@ -5,14 +5,12 @@ export function useLoad<T>(fetcher: () => Promise<T>) {
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchList = () => {
-    setIsLoading(true);
-    fetcher()
-      .then(setData)
-      .finally(() => setIsLoading(false));
+    return fetcher().then(setData);
   };
 
   useEffect(() => {
-    fetchList();
+    setIsLoading(true);
+    fetchList().finally(() => setIsLoading(false));
   }, []);
 
   return {

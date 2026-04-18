@@ -29,7 +29,14 @@ async function deleteRelation(id: string) {
   });
 }
 
+async function deleteBlock(id: string) {
+  return await fetch(`/api/blocks/${id}`, {
+    method: "DELETE",
+  });
+}
+
 export const blocksFlowApi = {
+  deleteBlock,
   addRelation,
   deleteRelation,
   getBlocksTypes,

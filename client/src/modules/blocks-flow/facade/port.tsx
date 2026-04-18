@@ -1,7 +1,7 @@
 import { Block } from "../domain/block";
 import { PortConfig } from "../domain/block-types";
 import { getPortId } from "../domain/port";
-import { useCreateRelation } from "../model/use-create-relation";
+import { useSelectPort } from "../model/create-relation";
 import { PortView } from "../ui/port";
 import { usePortPositionsReader } from "../view-model/use-ports-positions";
 
@@ -15,7 +15,7 @@ export function Port({
   type: "input" | "output";
   blockId: string;
   config: PortConfig;
-  onCreateArrow?: () => void;
+  onCreateArrow?: () => Promise<void>;
   blocks: Block[];
 }) {
   const portInfo = {
@@ -25,14 +25,12 @@ export function Port({
   };
   const id = getPortId(portInfo);
 
-  const isSelectedPort = useCreateRelation((state) =>
-    state.getIsSelectedPort(portInfo)
-  );
+  const { selectPort, isSelectedPort, isCanEndSelection } = useSelectPort({
+    blocks,
+    port: portInfo,
+    onSuccess: onCreateArrow,
+  });
 
-  const isCanEndSelection = useCreateRelation((state) =>
-    state.getIsCanEndSelection(portInfo, blocks)
-  );
-  const selectPort = useCreateRelation((state) => state.selectPort);
   const portRef = usePortPositionsReader(id);
 
   return (
@@ -41,7 +39,7 @@ export function Port({
       text={config.label}
       isSelected={isSelectedPort}
       isCanEndSeletion={isCanEndSelection}
-      onTargetClick={() => selectPort(portInfo, blocks, onCreateArrow)}
+      onTargetClick={selectPort}
       portRef={portRef}
     />
   );

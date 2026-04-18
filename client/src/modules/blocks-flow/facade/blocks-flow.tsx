@@ -1,13 +1,13 @@
 import { Block } from "../domain/block";
 import { Position as Position } from "../domain/position";
+import { useUnselectPort } from "../model/create-relation";
 import { useBlockTypes } from "../model/use-block-types";
-import { useCreateRelation } from "../model/use-create-relation";
-import { Arrows } from "../ui/arrows";
 import { BlockView } from "../ui/block";
-import { Field } from "../ui/field";
 import { Root } from "../ui/root";
-import { usePortPositions } from "../view-model/use-ports-positions";
+import { useListenMousePosition } from "../view-model/use-mouse-position";
+import { Arrows } from "./arrows";
 import { Port } from "./port";
+import { useDelete } from "./use-delete";
 
 export function BlocksFlow({
   blocks,
@@ -16,17 +16,21 @@ export function BlocksFlow({
 }: {
   blocks: Block[];
   onFlowClick: (position: Position) => void;
-  onChanged?: () => void;
+  onChanged: () => Promise<void>;
 }) {
   const blockTypes = useBlockTypes((state) => state.getData());
-  const isSelection = useCreateRelation((state) => state.isSelection());
-  const unselectPort = useCreateRelation((state) => state.unselectPort);
-  const portPositions = usePortPositions();
+  const unselectPort = useUnselectPort();
+  const rootRef = useListenMousePosition();
+
+  useDelete(onChanged);
 
   return (
     <Root
-      field={<Field onClick={isSelection ? unselectPort : onFlowClick} />}
-      arrows={<Arrows blocks={blocks} portPositions={portPositions} />}
+      rootRef={rootRef}
+      onFieldClick={
+        unselectPort.isSelection ? unselectPort.unselectPort : onFlowClick
+      }
+      arrows={<Arrows blocks={blocks} />}
       blocks={blocks.map((block) => (
         <BlockView
           key={block.id}
