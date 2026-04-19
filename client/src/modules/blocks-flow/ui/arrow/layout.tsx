@@ -13,7 +13,7 @@ export function Layout({
   end: Position;
   isSelected?: boolean;
   noPointer?: boolean;
-  onClick?: () => void;
+  onClick?: React.MouseEventHandler<SVGPathElement>;
 }) {
   const d = `M ${start.x} ${start.y} L ${end.x} ${end.y} `;
 

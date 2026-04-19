@@ -1,6 +1,6 @@
 import styles from "./styles.module.css";
 import { clsx } from "clsx";
-import { Ref } from "react";
+import React, { Ref } from "react";
 
 export function Layout({
   text,
@@ -14,7 +14,7 @@ export function Layout({
   type: "input" | "output";
   isSelected?: boolean;
   isCanEndSeletion?: boolean;
-  onTargetClick?: () => void;
+  onTargetClick?: React.MouseEventHandler<HTMLButtonElement>;
   portRef: Ref<HTMLButtonElement>;
 }) {
   return (

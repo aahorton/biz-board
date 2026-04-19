@@ -1,12 +1,6 @@
 import { useDeferredValue, useMemo, useState } from "react";
 
-export function useFilters(
-  items: {
-    id: string;
-    name: string;
-    onDelete?: () => void;
-  }[]
-) {
+export function useFilters<T extends { name: string }>(items: T[]) {
   const [q, setQ] = useState("");
   const defferedQ = useDeferredValue(q);
 

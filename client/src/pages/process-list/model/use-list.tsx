@@ -1,36 +1,36 @@
 import { useLoad } from "../../../shared/use-load";
-import { processApi } from "../api";
 
-export type ProcessListItem = {
-  id: string;
-  name: string;
+export type ListApi<T extends { id: string }, P> = {
+  list: () => Promise<T[]>;
+  create: (name: P) => Promise<unknown>;
+  delete: (id: string) => Promise<unknown>;
 };
 
-export function useList() {
+export function useList<T extends { id: string }, P>(listApi: ListApi<T, P>) {
   const {
     data: processList = [],
     refetch,
     isLoading,
-  } = useLoad(() => processApi.list());
+  } = useLoad(() => listApi.list());
 
-  const create = async (name: string) => {
-    await processApi.create(name);
+  const createItem = async (params: P) => {
+    await listApi.create(params);
     refetch();
   };
 
-  const deleteProcess = async (id: string) => {
-    await processApi.delete(id);
+  const deleteItem = async (id: string) => {
+    await listApi.delete(id);
     refetch();
   };
 
   const items = processList.map((item) => ({
     ...item,
-    onDelete: () => deleteProcess(item.id),
+    onDelete: () => deleteItem(item.id),
   }));
 
   return {
     items,
-    create,
+    createItem,
     isLoading,
   };
 }

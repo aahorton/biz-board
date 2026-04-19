@@ -1,23 +1,21 @@
+import React from "react";
 import styles from "./styles.module.css";
 
 export function Layout({
-  createForm,
-  filters,
-  cards: card,
+  actionsPanel,
+  list,
   isLoading,
 }: {
-  filters: React.ReactNode;
-  createForm: React.ReactNode;
-  cards: React.ReactNode;
+  actionsPanel: React.ReactNode;
+  list: React.ReactNode;
   isLoading?: boolean;
 }) {
   return (
     <div className={styles.root}>
       <h1 className={styles.title}>process list</h1>
-      {createForm}
-      {filters}
+      {actionsPanel}
       <div className={styles.list}>
-        {card}
+        {list}
         {isLoading && <div className={styles.loading}>loading...</div>}
       </div>
     </div>

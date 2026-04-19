@@ -1,6 +1,6 @@
+import { BlocksFlowDispatch } from "../domain/actions";
 import { useDeleteRelations } from "../model/delete-relations";
 import { useSelected } from "../model/use-selected";
-import { useKeysHandlers } from "../view-model/use-keys-handler";
 
 export function useDelete(onChanged: () => Promise<void>) {
   const getSelectedRelations = useSelected(
@@ -16,7 +16,11 @@ export function useDelete(onChanged: () => Promise<void>) {
     afterComplete: resetSelectedRelations,
   });
 
-  useKeysHandlers({
-    onDelete: deleteRelation,
-  });
+  const listenDeleteActions: BlocksFlowDispatch = (action) => {
+    if (action.type === "delete") {
+      deleteRelation();
+    }
+  };
+
+  return listenDeleteActions;
 }

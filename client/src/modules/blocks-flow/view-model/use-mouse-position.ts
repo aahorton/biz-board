@@ -1,9 +1,10 @@
 import { create } from "zustand";
-import { useCallback, useRef } from "react";
+import { BlocksFlowDispatch } from "../domain/actions";
+import { Position } from "../domain/position";
 
 type Store = {
-  position?: { x: number; y: number };
-  setPosition: (position: { x: number; y: number }) => void;
+  position?: Position;
+  setPosition: (position?: Position) => void;
 };
 
 export const useSelectedPortStore = create<Store>((set) => ({
@@ -11,27 +12,13 @@ export const useSelectedPortStore = create<Store>((set) => ({
   setPosition: (position) => set({ position }),
 }));
 
-export function useListenMousePosition() {
-  const unsubscribe = useRef<() => void>();
+export function useListenMousePosition(): BlocksFlowDispatch {
   const setPosition = useSelectedPortStore((state) => state.setPosition);
-
-  const callbackRef = useCallback((eleemnt: HTMLElement | null) => {
-    unsubscribe.current?.();
-    if (eleemnt) {
-      const listener = (event: MouseEvent) => {
-        setPosition({
-          x: event.clientX,
-          y: event.clientY,
-        });
-      };
-
-      eleemnt.addEventListener("mousemove", listener);
-      unsubscribe.current = () =>
-        eleemnt.removeEventListener("mousemove", listener);
+  return (action) => {
+    if (action.type === "rootMouseMoveAction") {
+      setPosition(action.payload.position);
     }
-  }, []);
-
-  return callbackRef;
+  };
 }
 
 export function useMousePosition(isEnabled: boolean) {

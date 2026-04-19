@@ -3,6 +3,7 @@ import { PortConfig } from "../domain/block-types";
 import { getPortId } from "../domain/port";
 import { useSelectPort } from "../model/create-relation";
 import { PortView } from "../ui/port";
+import { ControllerType } from "../view-model/controller/type";
 import { usePortPositionsReader } from "../view-model/use-ports-positions";
 
 export function Port({
@@ -10,13 +11,13 @@ export function Port({
   type,
   blockId,
   blocks,
-  onCreateArrow,
+  controller,
 }: {
   type: "input" | "output";
   blockId: string;
   config: PortConfig;
-  onCreateArrow?: () => Promise<void>;
   blocks: Block[];
+  controller: ControllerType;
 }) {
   const portInfo = {
     blockId: blockId,
@@ -25,10 +26,9 @@ export function Port({
   };
   const id = getPortId(portInfo);
 
-  const { selectPort, isSelectedPort, isCanEndSelection } = useSelectPort({
+  const { isSelectedPort, isCanEndSelection } = useSelectPort({
     blocks,
     port: portInfo,
-    onSuccess: onCreateArrow,
   });
 
   const portRef = usePortPositionsReader(id);
@@ -39,7 +39,7 @@ export function Port({
       text={config.label}
       isSelected={isSelectedPort}
       isCanEndSeletion={isCanEndSelection}
-      onTargetClick={selectPort}
+      onTargetClick={controller.portTarget?.(portInfo).onClick}
       portRef={portRef}
     />
   );

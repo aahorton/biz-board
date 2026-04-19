@@ -1,29 +1,27 @@
-import { Position } from "../../domain/position";
+import React from "react";
 import styles from "./styles.module.css";
 
 export function Layout({
-  blocks,
-  arrows,
-  onFieldClick,
+  elementsLayer,
+  relationsLayer,
   rootRef,
+  topLayer,
+  fieldProps,
+  rootProps,
 }: {
-  blocks: React.ReactNode;
-  arrows: React.ReactNode;
-  onFieldClick: ({ x, y }: Position) => void;
+  elementsLayer: React.ReactNode;
+  relationsLayer: React.ReactNode;
+  topLayer: React.ReactNode;
+  rootProps: React.HTMLAttributes<HTMLDivElement>;
+  fieldProps: React.HTMLAttributes<HTMLDivElement>;
   rootRef?: React.Ref<HTMLDivElement>;
 }) {
-  const handleFieldClick = (e: React.MouseEvent) => {
-    onFieldClick({
-      x: e.clientX,
-      y: e.clientY,
-    });
-  };
-
   return (
-    <div ref={rootRef} className={styles.root}>
-      <div className={styles.field} onClick={handleFieldClick}></div>
-      {blocks}
-      <svg className={styles.arrows}>{arrows}</svg>
+    <div tabIndex={0} ref={rootRef} className={styles.root} {...rootProps}>
+      <div className={styles.field} {...fieldProps}></div>
+      {elementsLayer}
+      <svg className={styles.arrows}>{relationsLayer}</svg>
+      {topLayer}
     </div>
   );
 }
