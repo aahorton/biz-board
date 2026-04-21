@@ -1,3 +1,4 @@
+import React from "react";
 import { Block } from "../../domain/block";
 import { BlockTypesRecord, PortConfig } from "../../domain/block-types";
 import styles from "./styles.module.css";
@@ -6,9 +7,11 @@ export function Layout({
   block,
   blockTypesRecord,
   renderPort,
+  onClick,
 }: {
   block: Block;
   blockTypesRecord: BlockTypesRecord;
+  onClick?: React.ReactEventHandler<HTMLButtonElement>;
   renderPort?: (type: "input" | "output", data: PortConfig) => React.ReactNode;
 }) {
   const blockType = blockTypesRecord[block.type];
@@ -34,6 +37,7 @@ export function Layout({
           {blockType.outputs?.map((output) => renderPort?.("output", output))}
         </div>
       </div>
+      <button className={styles.clickable} onClick={onClick}></button>
     </div>
   );
 }

@@ -1,8 +1,8 @@
 import { useId } from "react";
-import { useCreateBlock } from "../model/use-create-block";
+import { useCreateBlock } from "../../model/use-create-block";
 import { CreateForm } from "./create-form";
-import { Modal } from "../ui/modal";
-import { SubmitButton } from "../ui/submit-button";
+import { Modal } from "../../ui/modal";
+import { SubmitButton } from "../../ui/submit-button";
 
 export function CreateBlockModal({
   processId,

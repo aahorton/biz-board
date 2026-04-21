@@ -17,6 +17,39 @@ async function createBlock(data: CreateBlockBody) {
   });
 }
 
+export type UpdateBlockBody = {
+  blockId: string;
+  processId: string;
+  name: string;
+  type: string;
+  data: string;
+};
+
+async function updateBlock(data: UpdateBlockBody) {
+  return await fetch(`/api/blocks/${data.blockId}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+}
+
+export type GetBlockById = {
+  id: string;
+  name: string;
+  type: string;
+  data: string;
+};
+
+async function getBlockById(id: string) {
+  return await fetch(`/api/blocks/${id}`).then(
+    (res) => res.json() as Promise<GetBlockById>
+  );
+}
+
 export const manageBlockApi = {
   createBlock,
+  updateBlock,
+  getBlockById,
 };

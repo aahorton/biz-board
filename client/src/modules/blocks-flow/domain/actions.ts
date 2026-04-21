@@ -50,6 +50,11 @@ export type EndSelection = {
   payload: { position: Position };
 };
 
+export type BlockClickAction = {
+  type: "blockClick";
+  payload: { blockId: string };
+};
+
 export type BlocksFlowAction =
   | FlowClickAction
   | DeleteAction
@@ -61,6 +66,7 @@ export type BlocksFlowAction =
   | FlowMouseDownAction
   | StartSelection
   | EndSelection
-  | RootMouseMoveAction;
+  | RootMouseMoveAction
+  | BlockClickAction;
 
 export type BlocksFlowDispatch = (action: BlocksFlowAction) => void;

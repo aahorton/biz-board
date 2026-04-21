@@ -1,8 +1,8 @@
-import { useCreateBlock } from "../model/use-create-block";
-import { DefaultFileds } from "../ui/fields/default-fields";
-import { WebhookFields } from "../ui/fields/webhook-fields";
-import { FormRoot } from "../ui/form-root";
-import { useCreateForm } from "../view-model/use-create-form";
+import { useCreateBlock } from "../../model/use-create-block";
+import { DefaultFileds } from "../../ui/fields/default-fields";
+import { WebhookFields } from "../../ui/fields/webhook-fields";
+import { FormRoot } from "../../ui/form-root";
+import { useForm } from "../../view-model/use-form";
 
 export function CreateForm({
   onSuccess,
@@ -15,7 +15,7 @@ export function CreateForm({
 }) {
   const createBlock = useCreateBlock();
 
-  const createForm = useCreateForm((data) =>
+  const createForm = useForm((data) =>
     createBlock.submitCreate({ processId, ...data }).then(onSuccess)
   );
 

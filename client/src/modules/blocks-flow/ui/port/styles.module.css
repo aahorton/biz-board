@@ -28,6 +28,8 @@
   border-radius: 50%;
   border: 1px solid #000;
   background-color: lightgreen;
+  position: relative;
+  z-index: 1;
 }
 
 .target:hover {

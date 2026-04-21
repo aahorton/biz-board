@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export function useLoad<T>(fetcher: () => Promise<T>) {
+export function useLoad<T>(fetcher: () => Promise<T>, key = "default") {
   const [data, setData] = useState<T>();
   const [isLoading, setIsLoading] = useState(true);
 
@@ -9,9 +9,12 @@ export function useLoad<T>(fetcher: () => Promise<T>) {
   };
 
   useEffect(() => {
+    if (!key) {
+      return;
+    }
     setIsLoading(true);
     fetchList().finally(() => setIsLoading(false));
-  }, []);
+  }, [key]);
 
   return {
     data,

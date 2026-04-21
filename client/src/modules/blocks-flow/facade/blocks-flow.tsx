@@ -21,9 +21,11 @@ export function BlocksFlow({
   blocks,
   onFlowClick,
   onChanged,
+  onBlockClick,
 }: {
   blocks: Block[];
   onFlowClick: (position: Position) => void;
+  onBlockClick: (blockId: string) => void;
   onChanged: () => Promise<void>;
 }) {
   const blockTypes = useBlockTypes((state) => state.getData());
@@ -42,8 +44,10 @@ export function BlocksFlow({
       blocks,
       portPositions,
     }),
-    (action) =>
-      action.type === "flowClick" && onFlowClick(action.payload.position),
+    (action) => {
+      action.type === "flowClick" && onFlowClick(action.payload.position);
+      action.type === "blockClick" && onBlockClick(action.payload.blockId);
+    },
   ]);
 
   return (
@@ -57,6 +61,7 @@ export function BlocksFlow({
           key={block.id}
           block={block}
           blockTypesRecord={blockTypes}
+          onClick={controller.block?.(block.id).onClick}
           renderPort={(type, config) => (
             <Port
               controller={controller}

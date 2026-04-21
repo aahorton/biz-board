@@ -99,5 +99,18 @@ export const idleController = (
         },
       };
     },
+
+    block: (blockId) => {
+      return {
+        onClick: () => {
+          dispatch({
+            type: "blockClick",
+            payload: {
+              blockId,
+            },
+          });
+        },
+      };
+    },
   };
 };

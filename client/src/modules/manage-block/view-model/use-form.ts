@@ -12,12 +12,18 @@ export type WebhookFormData = {
   method: string;
 };
 
-export function useCreateForm(onSubmit: (data: FormData) => void) {
-  const [formData, setFormData] = useState<FormData>({
-    name: "Start",
-    type: BlockTypes.Start,
-    data: "{}",
-  });
+const defaultFormData: FormData = {
+  name: "Start",
+  type: BlockTypes.Start,
+  data: "{}",
+};
+
+export function useForm(
+  onSubmit: (data: FormData) => void,
+  defaultFeilds: FormData = defaultFormData
+) {
+  const [partialFormData, setFormData] = useState<Partial<FormData>>({});
+  const formData = { ...defaultFeilds, ...partialFormData };
 
   const webhookFormData: WebhookFormData =
     formData.type === "webhook" ? JSON.parse(formData.data) : undefined;

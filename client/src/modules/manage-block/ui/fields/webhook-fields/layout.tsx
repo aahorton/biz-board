@@ -1,4 +1,4 @@
-import { WebhookFormData } from "../../../view-model/use-create-form";
+import { WebhookFormData } from "../../../view-model/use-form";
 import styles from "./styles.module.css";
 
 export function Layout({

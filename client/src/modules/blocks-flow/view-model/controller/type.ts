@@ -10,4 +10,7 @@ export type ControllerType = {
   arrow?: (relationId: string) => {
     onClick?: React.MouseEventHandler<SVGPathElement>;
   };
+  block?: (blockId: string) => {
+    onClick?: React.MouseEventHandler<HTMLButtonElement>;
+  };
 };
