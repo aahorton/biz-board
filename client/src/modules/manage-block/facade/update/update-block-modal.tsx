@@ -1,17 +1,11 @@
 import { useId } from "react";
 
 import { Modal } from "../../ui/modal";
-import { SubmitButton } from "../../ui/submit-button";
 import { UpdateForm } from "./update-form";
 import { useUpdateBlock } from "../../model/update-block";
+import { UiButton } from "../../../../shared/ui/button";
 
-export function UpdateBlockModal({
-  processId,
-  onSuccess,
-}: {
-  processId: string;
-  onSuccess?: () => void;
-}) {
+export function UpdateBlockModal({ processId, onSuccess }: { processId: string; onSuccess?: () => void }) {
   const formId = useId();
 
   const createBlock = useUpdateBlock();
@@ -31,7 +25,7 @@ export function UpdateBlockModal({
           onSuccess={onSuccess}
         />
       }
-      footer={<SubmitButton formId={formId} />}
+      footer={<UiButton form={formId}>Save</UiButton>}
     />
   );
 }

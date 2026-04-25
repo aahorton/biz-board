@@ -1,3 +1,4 @@
+import { RelationId } from "./block";
 import { Port } from "./port";
 import { Position } from "./position";
 
@@ -5,21 +6,12 @@ export type FlowClickAction = {
   type: "flowClick";
   payload: { position: Position };
 };
-export type FlowMouseDownAction = {
-  type: "flowMouseDownAction";
-  payload: { position: Position };
-};
-export type RootMouseUpAction = {
-  type: "rootMouseUpAction";
-  payload: { position: Position };
-};
-export type RootMouseMoveAction = {
-  type: "rootMouseMoveAction";
-  payload: { position: Position };
-};
 
-export type DeleteAction = {
-  type: "delete";
+export type DeleteRelations = {
+  type: "deleteRelations";
+  payload: {
+    relations: RelationId[];
+  };
 };
 
 export type SelectPortAction = {
@@ -28,8 +20,8 @@ export type SelectPortAction = {
 };
 
 export type SelectRelationAction = {
-  type: "toggleSelectRelation";
-  payload: { relationId: string };
+  type: "selectRelation";
+  payload: { relationId: string; value?: boolean };
 };
 
 export type StopCreateRelation = {
@@ -40,16 +32,6 @@ export type CreateRelation = {
   payload: { port: Port };
 };
 
-export type StartSelection = {
-  type: "startSelection";
-  payload: { position: Position };
-};
-
-export type EndSelection = {
-  type: "endSelection";
-  payload: { position: Position };
-};
-
 export type BlockClickAction = {
   type: "blockClick";
   payload: { blockId: string };
@@ -57,16 +39,11 @@ export type BlockClickAction = {
 
 export type BlocksFlowAction =
   | FlowClickAction
-  | DeleteAction
+  | DeleteRelations
   | SelectPortAction
   | SelectRelationAction
   | StopCreateRelation
   | CreateRelation
-  | RootMouseUpAction
-  | FlowMouseDownAction
-  | StartSelection
-  | EndSelection
-  | RootMouseMoveAction
   | BlockClickAction;
 
 export type BlocksFlowDispatch = (action: BlocksFlowAction) => void;

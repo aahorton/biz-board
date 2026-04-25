@@ -1,5 +1,6 @@
+import { UiInput } from "../../../../../shared/ui/input";
+import { UiSelect } from "../../../../../shared/ui/select";
 import { WebhookFormData } from "../../../view-model/use-form";
-import styles from "./styles.module.css";
 
 export function Layout({
   formData,
@@ -10,25 +11,22 @@ export function Layout({
 }) {
   return (
     <>
-      <input
-        className={styles.input}
+      <UiInput
         name="url"
         type="text"
         value={formData.url}
-        onChange={(e) => onChangeFormData({ ...formData, url: e.target.value })}
+        onChange={(value) => onChangeFormData({ ...formData, url: value })}
       />
 
-      <select
-        className={styles.input}
+      <UiSelect
         name="method"
         value={formData.method}
-        onChange={(e) =>
-          onChangeFormData({ ...formData, method: e.target.value })
-        }
-      >
-        <option value="GET">GET</option>
-        <option value="POST">POST</option>
-      </select>
+        onChange={(value) => onChangeFormData({ ...formData, method: value })}
+        options={[
+          { value: "GET", label: "GET" },
+          { value: "POST", label: "POST" },
+        ]}
+      />
     </>
   );
 }

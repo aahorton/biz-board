@@ -3,6 +3,7 @@
   flex-direction: row;
   align-items: center;
   gap: 5px;
+  justify-content: space-between;
 }
 
 .port.selected .target {
@@ -23,6 +24,9 @@
 }
 
 .target {
+  transform: none;
+  top: 0;
+  left: 0;
   width: 20px;
   height: 20px;
   border-radius: 50%;

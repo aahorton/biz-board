@@ -3,11 +3,9 @@ import { Relation, RelationId } from "../domain/block";
 import { create } from "zustand";
 
 export function useDeleteRelations({
-  getRelationsToDelete,
   afterComplete,
   onComplete,
 }: {
-  getRelationsToDelete: () => RelationId[];
   onComplete: () => Promise<void>;
   afterComplete?: () => void;
 }) {
@@ -15,11 +13,11 @@ export function useDeleteRelations({
     (state) => state.setDeletingRelations
   );
 
-  return async () => {
-    setDeletingRelations(getRelationsToDelete());
+  return async (relations: RelationId[]) => {
+    setDeletingRelations(relations);
 
     await Promise.allSettled(
-      getRelationsToDelete().map((id) => blocksFlowApi.deleteRelation(id))
+      relations.map((id) => blocksFlowApi.deleteRelation(id))
     );
 
     try {

@@ -13,6 +13,7 @@ type Store = {
   setSelectedEndPort: (port: Port) => void;
   setSelectedPort: (port: Port) => void;
   unselectPorts: () => void;
+  getSelectedPort: () => Port | undefined;
   getIsCanEndSelection: (port: Port, blocks: Block[]) => boolean;
   getIsCanStartSelection: (port: Port, blocks: Block[]) => boolean;
 };
@@ -20,6 +21,7 @@ type Store = {
 export const useSelectedPortStore = create<Store>((set, get) => ({
   selectedPort: undefined,
   selectedEndPort: undefined,
+  getSelectedPort: () => get().selectedPort,
   setSelectedPort: (port: Port) => set({ selectedPort: port }),
   setSelectedEndPort: (port: Port) => set({ selectedEndPort: port }),
   unselectPorts: () =>

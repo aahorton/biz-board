@@ -1,5 +1,4 @@
-import { getPortId, Port, PortId } from "./port";
-import { Position, sumPosition } from "./position";
+import { getPortId, Port } from "./port";
 
 export type BlockId = string;
 export type Block = {
@@ -50,57 +49,4 @@ export const relationFromPorts = (portA: Port, portB: Port) => {
         outputId: portA.blockId,
         outputPort: portA.port,
       };
-};
-
-export const getPortPosition = ({
-  blocksRecord,
-  portPositions,
-  port,
-}: {
-  port: Port;
-  blocksRecord: Record<BlockId, Block>;
-  portPositions: Record<PortId, Position>;
-}) => {
-  const portId = getPortId(port);
-  const inputPortPosition = portPositions?.[portId] ?? { x: 0, y: 0 };
-  const inputBlock = blocksRecord[port.blockId] ?? { x: 0, y: 0 };
-  return sumPosition(inputBlock, inputPortPosition);
-};
-
-export const getRelationsPositions = ({
-  portPositions,
-  blocksRecord,
-  relations,
-}: {
-  blocksRecord: Record<BlockId, Block>;
-  portPositions: Record<PortId, Position>;
-  relations: Relation[];
-}) => {
-  return relations.map((relation) => {
-    const inputPosition = getPortPosition({
-      blocksRecord,
-      portPositions,
-      port: {
-        blockId: relation.inputId,
-        port: relation.inputPort,
-        type: "input",
-      },
-    });
-
-    const outputPosition = getPortPosition({
-      blocksRecord,
-      portPositions,
-      port: {
-        blockId: relation.outputId,
-        port: relation.outputPort,
-        type: "output",
-      },
-    });
-
-    return {
-      inputPosition,
-      outputPosition,
-      id: relation.id,
-    };
-  });
 };

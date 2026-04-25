@@ -25,14 +25,13 @@ describe("blocks-flow/model/delete-relations", () => {
 
     const { result } = renderHook(() =>
       useDeleteRelations({
-        getRelationsToDelete: () => [testRelation.id],
         onComplete: onComplete,
         afterComplete: afterComplete,
       })
     );
 
     await act(() => {
-      return result.current();
+      return result.current([testRelation.id]);
     });
 
     expect(onComplete).toHaveBeenCalledTimes(1);
@@ -49,7 +48,6 @@ describe("blocks-flow/model/delete-relations", () => {
 
     const { result: useDeleteRelationsResult } = renderHook(() =>
       useDeleteRelations({
-        getRelationsToDelete: () => [testRelation.id],
         onComplete: onComplete,
         afterComplete: afterComplete,
       })
@@ -60,7 +58,7 @@ describe("blocks-flow/model/delete-relations", () => {
     );
 
     act(() => {
-      useDeleteRelationsResult.current();
+      useDeleteRelationsResult.current([testRelation.id]);
     });
 
     expect(useOptimisticDeleteRelationsResult.current).toEqual([]);

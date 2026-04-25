@@ -2,15 +2,9 @@ import { useId } from "react";
 import { useCreateBlock } from "../../model/use-create-block";
 import { CreateForm } from "./create-form";
 import { Modal } from "../../ui/modal";
-import { SubmitButton } from "../../ui/submit-button";
+import { UiButton } from "../../../../shared/ui/button";
 
-export function CreateBlockModal({
-  processId,
-  onSuccess,
-}: {
-  processId: string;
-  onSuccess?: () => void;
-}) {
+export function CreateBlockModal({ processId, onSuccess }: { processId: string; onSuccess?: () => void }) {
   const formId = useId();
 
   const createBlock = useCreateBlock();
@@ -30,7 +24,7 @@ export function CreateBlockModal({
           onSuccess={onSuccess}
         />
       }
-      footer={<SubmitButton formId={formId} />}
+      footer={<UiButton form={formId}>Save</UiButton>}
     />
   );
 }

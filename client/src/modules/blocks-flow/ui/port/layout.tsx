@@ -1,21 +1,19 @@
+import { Handle, Position } from "@xyflow/react";
 import styles from "./styles.module.css";
 import { clsx } from "clsx";
-import React, { Ref } from "react";
 
 export function Layout({
   text,
   type,
   isCanEndSeletion,
   isSelected,
-  onTargetClick,
-  portRef,
+  id,
 }: {
+  id: string;
   text: string;
   type: "input" | "output";
   isSelected?: boolean;
   isCanEndSeletion?: boolean;
-  onTargetClick?: React.MouseEventHandler<HTMLButtonElement>;
-  portRef: Ref<HTMLButtonElement>;
 }) {
   return (
     <div
@@ -25,11 +23,23 @@ export function Layout({
       })}
     >
       <div className={styles.text}>{text}</div>
-      <button
-        ref={portRef}
-        onClick={onTargetClick}
+
+      <Handle
         className={styles.target}
-      ></button>
+        id={id}
+        position={
+          {
+            input: Position.Left,
+            output: Position.Right,
+          }[type]
+        }
+        type={
+          {
+            input: "target" as const,
+            output: "source" as const,
+          }[type]
+        }
+      ></Handle>
     </div>
   );
 }

@@ -14,7 +14,8 @@ export function useCreateRelation({
   const {
     unselectPorts: unselectPort,
     setSelectedPort,
-    selectedPort,
+
+    getSelectedPort,
     setSelectedEndPort,
     getIsCanEndSelection,
     getIsCanStartSelection,
@@ -30,7 +31,7 @@ export function useCreateRelation({
     if (getIsCanEndSelection(port, blocks)) {
       setSelectedEndPort(port);
 
-      const params = relationFromPorts(port, selectedPort!);
+      const params = relationFromPorts(port, getSelectedPort()!);
       await blocksFlowApi.addRelation(params);
       await onSuccess?.();
 

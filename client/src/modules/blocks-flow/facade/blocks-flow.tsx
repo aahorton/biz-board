@@ -1,21 +1,16 @@
 import { Block } from "../domain/block";
 import { Position as Position } from "../domain/position";
-import { useCreateRelation } from "../model/create-relation";
+import { ReactFlowContainer } from "../ui/react-flow-container";
+import { Background, Controls, ReactFlow } from "@xyflow/react";
+import "@xyflow/react/dist/style.css";
 
-import { useBlockTypes } from "../model/use-block-types";
-import { useSelected } from "../model/use-selected";
-import { BlockView } from "../ui/block";
-import { Root } from "../ui/root";
-import { useListenMouseDownPosition } from "../view-model/use-mouse-down-position";
-
-import { useListenMousePosition } from "../view-model/use-mouse-position";
-import { usePortPositions } from "../view-model/use-ports-positions";
-import { useListenSelectionArea } from "../view-model/use-selection-area";
-import { Arrows } from "./arrows";
-import { Port } from "./port";
-import { TopLayer } from "./top-layer";
-import { useController } from "./use-controller";
 import { useDelete } from "./use-delete";
+import { useCreateRelation } from "../model/create-relation";
+import { useSelected } from "../model/use-selected";
+import { nodeTypes } from "./block-node";
+import { useEdges } from "./use-edges";
+import { flowController } from "../model/flow/controller";
+import { blockToNode } from "../model/flow";
 
 export function BlocksFlow({
   blocks,
@@ -28,22 +23,16 @@ export function BlocksFlow({
   onBlockClick: (blockId: string) => void;
   onChanged: () => Promise<void>;
 }) {
-  const blockTypes = useBlockTypes((state) => state.getData());
-  const portPositions = usePortPositions();
+  const edges = useEdges(blocks);
+  const nodes = blocks.map((block) => blockToNode({ block, blocks }));
 
-  const controller = useController([
-    useListenMousePosition(),
-    useListenSelectionArea(),
-    useListenMouseDownPosition(),
+  const controller = flowController([
     useDelete(onChanged),
     useCreateRelation({
       blocks,
       onSuccess: onChanged,
     }),
-    useSelected((state) => state.handleAction)({
-      blocks,
-      portPositions,
-    }),
+    useSelected((state) => state.handleAction),
     (action) => {
       action.type === "flowClick" && onFlowClick(action.payload.position);
       action.type === "blockClick" && onBlockClick(action.payload.blockId);
@@ -51,28 +40,16 @@ export function BlocksFlow({
   ]);
 
   return (
-    <Root
-      fieldProps={controller.fieldProps}
-      rootProps={controller.rootProps}
-      topLayer={<TopLayer />}
-      relationsLayer={<Arrows blocks={blocks} controller={controller} />}
-      elementsLayer={blocks.map((block) => (
-        <BlockView
-          key={block.id}
-          block={block}
-          blockTypesRecord={blockTypes}
-          onClick={controller.block?.(block.id).onClick}
-          renderPort={(type, config) => (
-            <Port
-              controller={controller}
-              type={type}
-              config={config}
-              blockId={block.id}
-              blocks={blocks}
-            />
-          )}
-        />
-      ))}
-    />
+    <ReactFlowContainer>
+      <ReactFlow
+        nodes={nodes}
+        edges={edges}
+        nodeTypes={nodeTypes}
+        {...controller}
+      >
+        <Background />
+        <Controls />
+      </ReactFlow>
+    </ReactFlowContainer>
   );
 }
