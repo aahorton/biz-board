@@ -1,10 +1,10 @@
 import { create } from "zustand";
-import { blocksFlowApi } from "../api";
 import {
   BlockTypes,
   BlockTypesRecord,
   getBlockTypesRecord,
-} from "../domain/block-types";
+} from "../../../generic-modules/block/domain/block-types";
+import { blockApi } from "../api";
 
 type Store = {
   blockTypes: BlockTypes[];
@@ -15,7 +15,7 @@ type Store = {
 
 export const useBlockTypes = create<Store>((set, get) => {
   const fetchBlockTypes = () => {
-    blocksFlowApi.getBlocksTypes().then((blockTypes) => {
+    blockApi.getBlocksTypes().then((blockTypes) => {
       set({
         blockTypes: blockTypes,
         isLoading: false,

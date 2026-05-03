@@ -1,4 +1,5 @@
 import { memoize } from "lodash";
+import { FormFieldConfig } from "../../../shared/form-builder/model/types";
 
 export type PortConfig = {
   port: string;
@@ -10,6 +11,9 @@ export type BlockTypes = {
   label: string;
   outputs?: PortConfig[];
   inputs?: PortConfig[];
+  template?: {
+    fields: FormFieldConfig[];
+  };
 };
 
 export type BlockTypesRecord = Record<string, BlockTypes | undefined>;

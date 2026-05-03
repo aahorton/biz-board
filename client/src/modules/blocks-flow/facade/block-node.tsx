@@ -1,9 +1,10 @@
 import { NodeProps } from "@xyflow/react";
 
 import { BlockView } from "../ui/block";
-import { useBlockTypes } from "../model/use-block-types";
+
 import { Port } from "./port";
 import { AppNode } from "../model/flow";
+import { useBlockTypes } from "../../../generic-modules/block";
 
 export const nodeTypes = { block: BlockNode };
 export function BlockNode({ data: { block, blocks } }: NodeProps<AppNode>) {

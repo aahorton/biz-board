@@ -1,6 +1,5 @@
-import { BlockType } from "../../manage-block/model/types";
 import { Block, Relation } from "../domain/block";
-import { BlockTypes } from "../domain/block-types";
+import { BlockTypes } from "../../../generic-modules/block/domain/block-types";
 
 export const testRelation: Relation = {
   id: "relation-1",

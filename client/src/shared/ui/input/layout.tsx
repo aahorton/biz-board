@@ -1,23 +1,29 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import styles from "./styles.module.css";
 import clsx from "clsx";
 
-export function Layout({
-  className,
-  onChange,
-  ...props
-}: Omit<React.InputHTMLAttributes<HTMLInputElement>, "onChange"> & {
-  value: string;
-  onChange: (value: string) => void;
-}) {
+export default forwardRef(function Layout(
+  {
+    className,
+    onChangeValue,
+    onChange,
+    ...props
+  }: React.InputHTMLAttributes<HTMLInputElement> & {
+    value?: string;
+    onChangeValue?: (value: string) => void;
+  },
+  ref: React.ForwardedRef<HTMLInputElement>
+) {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onChange(e.target.value);
+    onChangeValue?.(e.target.value);
+    onChange?.(e);
   };
   return (
     <input
+      ref={ref}
       {...props}
       onChange={handleChange}
       className={clsx(styles.input, className)}
     />
   );
-}
+});

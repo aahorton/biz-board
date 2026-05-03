@@ -1,1 +1,1 @@
-export { Layout as UiSelect, type Option } from "./layout";
+export { default as UiSelect, type Option } from "./layout";

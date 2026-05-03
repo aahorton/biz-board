@@ -1,1 +1,1 @@
-export { Layout as UiInput } from "./layout";
+export { default as UiInput } from "./layout";

@@ -1,8 +1,10 @@
+import { FormBuilderFields } from "../../../../shared/form-builder";
 import { useUpdateBlock, useUpdateBlockData } from "../../model/update-block";
-import { DefaultFileds } from "../../ui/fields/default-fields";
-import { WebhookFields } from "../../ui/fields/webhook-fields";
+import { DefaultFileds } from "../../ui/default-fields";
 import { FormRoot } from "../../ui/form-root";
-import { useForm } from "../../view-model/use-form";
+import { useFormBlockTypes } from "../../model/use-form-block-types";
+import { useManageBlockForm } from "../../view-model/use-form";
+import { FormProvider } from "react-hook-form";
 
 export function UpdateForm({
   onSuccess,
@@ -13,29 +15,34 @@ export function UpdateForm({
   processId: string;
   onSuccess?: () => void;
 }) {
+  const { types, typesOptions } = useFormBlockTypes();
   const createBlock = useUpdateBlock();
   const updateBlockData = useUpdateBlockData();
 
-  const updateForm = useForm(
-    (data) => createBlock.submitUpdate({ processId, ...data }).then(onSuccess),
-    updateBlockData.data
-  );
+  const updateForm = useManageBlockForm({
+    onSubmit: (data) =>
+      createBlock.submitUpdate({ processId, ...data }).then(onSuccess),
+    blockTypes: types,
+    defaultFields: updateBlockData.data,
+  });
+  const config = types[updateForm.type]?.template;
 
   return (
-    <FormRoot formId={formId} onSubmit={updateForm.handleSubmit}>
-      <DefaultFileds
-        formData={updateForm.formData}
-        onTypeChange={updateForm.handleTypeChange}
-        onNameChange={updateForm.handleNameChange}
-        isTypeDisabled
-        isNameDisabled={updateBlockData.isLoading}
-      />
-      {updateForm.webhookFormData && (
-        <WebhookFields
-          formData={updateForm.webhookFormData}
-          onChangeFormData={updateForm.handleChangeWebhookFormData}
+    <FormProvider {...updateForm.form}>
+      <FormRoot formId={formId} onSubmit={updateForm.handleSubmit}>
+        <DefaultFileds
+          typeOptions={typesOptions}
+          formData={updateForm.deafultValue}
+          isTypeDisabled
+          isNameDisabled={updateBlockData.isLoading}
         />
-      )}
-    </FormRoot>
+        {config && (
+          <FormBuilderFields
+            config={config}
+            defaultValue={updateForm.deafultValue}
+          />
+        )}
+      </FormRoot>
+    </FormProvider>
   );
 }

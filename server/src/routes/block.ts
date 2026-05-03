@@ -45,6 +45,21 @@ const blockTypes = [
     type: "start",
     label: "Start",
     outputs: [output],
+    template: {
+      fields: [
+        {
+          type: "select",
+          label: "Start condition",
+          name: "condition",
+          required: true,
+          options: [
+            { value: "1", label: "Condition 1" },
+            { value: "2", label: "Condition 2" },
+            { value: "3", label: "Condition 3" },
+          ],
+        },
+      ],
+    },
   },
   {
     type: "webhook",
@@ -60,10 +75,91 @@ const blockTypes = [
         label: "Error",
       },
     ],
+    template: {
+      fields: [
+        {
+          type: "input",
+          label: "Url",
+          name: "url",
+          required: true,
+        },
+        {
+          type: "select",
+          label: "Method",
+          name: "method",
+          options: [
+            { value: "GET", label: "GET" },
+            { value: "POST", label: "POST" },
+          ],
+        },
+      ],
+    },
+  },
+  {
+    type: "send-message",
+    label: "Send message",
+    inputs: [input],
+    outputs: [output],
+    template: {
+      fields: [
+        {
+          type: "input",
+          label: "Message",
+          name: "message",
+        },
+      ],
+    },
+  },
+  {
+    type: "wait",
+    label: "Wait",
+    inputs: [input],
+    outputs: [output],
+    template: {
+      fields: [
+        {
+          type: "input",
+          label: "Wait time",
+          default: "1000",
+          name: "timeout",
+          min: "0",
+        },
+      ],
+    },
+  },
+  {
+    type: "test",
+    label: "Test Block",
+    inputs: [input],
+    outputs: [output],
+    template: {
+      fields: [
+        {
+          type: "input",
+          label: "Wait time",
+          default: "1000",
+          name: "timeout",
+          min: "0",
+        },
+        {
+          type: "select",
+          label: "Select",
+          name: "value",
+          options: [
+            { value: "1", label: "Condition 1" },
+            { value: "2", label: "Condition 2" },
+            { value: "3", label: "Condition 3" },
+          ],
+        },
+      ],
+    },
   },
   {
     type: "end",
     inputs: [input],
+    template: {
+      fields: [],
+    },
   },
 ];
 

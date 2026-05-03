@@ -1,0 +1,14 @@
+.formField {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.label {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.message {
+  color: red;
+}

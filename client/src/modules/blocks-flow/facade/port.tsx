@@ -1,5 +1,5 @@
 import { Block } from "../domain/block";
-import { PortConfig } from "../domain/block-types";
+import { PortConfig } from "../../../generic-modules/block";
 
 import { useSelectPort } from "../model/create-relation";
 import { PortView } from "../ui/port";

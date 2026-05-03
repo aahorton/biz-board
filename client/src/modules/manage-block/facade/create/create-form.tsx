@@ -1,8 +1,10 @@
+import { FormProvider } from "react-hook-form";
 import { useCreateBlock } from "../../model/use-create-block";
-import { DefaultFileds } from "../../ui/fields/default-fields";
-import { WebhookFields } from "../../ui/fields/webhook-fields";
+import { DefaultFileds } from "../../ui/default-fields";
 import { FormRoot } from "../../ui/form-root";
-import { useForm } from "../../view-model/use-form";
+import { useFormBlockTypes } from "../../model/use-form-block-types";
+import { useManageBlockForm } from "../../view-model/use-form";
+import { FormBuilderFields } from "../../../../shared/form-builder";
 
 export function CreateForm({
   onSuccess,
@@ -13,25 +15,30 @@ export function CreateForm({
   processId: string;
   onSuccess?: () => void;
 }) {
+  const { types, typesOptions } = useFormBlockTypes();
   const createBlock = useCreateBlock();
 
-  const createForm = useForm((data) =>
-    createBlock.submitCreate({ processId, ...data }).then(onSuccess)
-  );
+  const createForm = useManageBlockForm({
+    onSubmit: (data) =>
+      createBlock.submitCreate({ processId, ...data }).then(onSuccess),
+    blockTypes: types,
+  });
+  const config = types[createForm.type]?.template;
 
   return (
-    <FormRoot formId={formId} onSubmit={createForm.handleSubmit}>
-      <DefaultFileds
-        formData={createForm.formData}
-        onTypeChange={createForm.handleTypeChange}
-        onNameChange={createForm.handleNameChange}
-      />
-      {createForm.webhookFormData && (
-        <WebhookFields
-          formData={createForm.webhookFormData}
-          onChangeFormData={createForm.handleChangeWebhookFormData}
+    <FormProvider {...createForm.form}>
+      <FormRoot formId={formId} onSubmit={createForm.handleSubmit}>
+        <DefaultFileds
+          typeOptions={typesOptions}
+          formData={createForm.deafultValue}
         />
-      )}
-    </FormRoot>
+        {config && (
+          <FormBuilderFields
+            config={config}
+            defaultValue={createForm.deafultValue}
+          />
+        )}
+      </FormRoot>
+    </FormProvider>
   );
 }

@@ -1,6 +1,9 @@
 import React from "react";
 import { Block } from "../../domain/block";
-import { BlockTypesRecord, PortConfig } from "../../domain/block-types";
+import {
+  BlockTypesRecord,
+  PortConfig,
+} from "../../../../generic-modules/block/domain/block-types";
 import styles from "./styles.module.css";
 
 export function Layout({
@@ -21,13 +24,7 @@ export function Layout({
   }
 
   return (
-    <div
-      className={styles.block}
-      style={{
-        left: block.x,
-        top: block.y,
-      }}
-    >
+    <div className={styles.block}>
       {block.name}
       <div className={styles.ports}>
         <div className={styles.portsSlot}>

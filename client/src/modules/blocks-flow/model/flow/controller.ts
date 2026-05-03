@@ -1,9 +1,10 @@
-import { ReactFlowProps } from "@xyflow/react";
+import { ReactFlowInstance, ReactFlowProps } from "@xyflow/react";
 import { BlocksFlowAction, BlocksFlowDispatch } from "../../domain/actions";
 import { AppEdge, AppNode } from "./types";
 
 export const flowController = (
-  dispatchList: BlocksFlowDispatch[]
+  dispatchList: BlocksFlowDispatch[],
+  reactFlow: ReactFlowInstance
 ): ReactFlowProps<AppNode, AppEdge> => {
   const dispatch = (action: BlocksFlowAction) =>
     dispatchList.forEach((d) => d(action));
@@ -64,10 +65,10 @@ export const flowController = (
       dispatch({
         type: "flowClick",
         payload: {
-          position: {
-            x: e.clientX,
-            y: e.clientY,
-          },
+          position: reactFlow.screenToFlowPosition({
+            x: e.screenX,
+            y: e.screenY,
+          }),
         },
       });
     },
